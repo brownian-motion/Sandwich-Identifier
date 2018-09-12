@@ -81,6 +81,7 @@
     //// This is disabled until we figure out how to enable Cross-Origin requests for this file
     var form = document.forms.namedItem("imageForm");
     form.addEventListener('submit', function(event) {
+        document.getElementById("message").textContent = "Loading ...";
         postFormAjax(form, handleSandwichResult);
         event.preventDefault();
     }, false);
