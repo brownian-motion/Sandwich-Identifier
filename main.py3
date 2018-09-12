@@ -3,8 +3,24 @@ import tempfile
 import json
 import io
 from google.cloud import vision
+from flask import make_response
 
-def parse_multipart(request):
+def handle_http_request(request):
+    """
+    Handles the actual http connection, setting Cross-Origin headers as needed.
+    """
+    if request.method == "OPTIONS": # this HTTP method is used to check Cross-Origin headers
+        res = make_response("") # don't do any work
+    else: # normal request
+        res = make_response(parse_request(request))
+    res.headers.set("Access-Control-Allow-Origin", "*")
+    res.headers.set("Access-Control-Allow-Methods", "GET");
+    res.headers.set("Access-Control-Allow-Headers", "Content-Type");
+    res.headers.set("Access-Control-Max-Age", "3600");
+    return res
+
+
+def parse_request(request):
     """ Parses a 'multipart/form-data' upload request and executes the function.
     Args:
         request (flask.Request): The request object.
@@ -14,7 +30,6 @@ def parse_multipart(request):
         <http://flask.pocoo.org/docs/0.12/api/#flask.Flask.make_response>.
     """
 
-    # This code will process each file uploaded
     file = extract_file_parameter(request, "image")
     if file == None:
         return json.dumps({'success': False, 'message': 'Error: No image uploaded!'})
@@ -27,7 +42,7 @@ def parse_multipart(request):
     os.remove(file_path)
 
     # get the max score for all of the sandwich, or 0 if there are no labels
-    max_score = max([label.score for label in sandwich_labels], default=0)
+    max_score = max([label['score'] for label in sandwich_labels], default=0)
 
     return json.dumps({'success': True, 'labels': sandwich_labels, 'score': max_score, 'message': get_confidence_message(max_score)})
 
