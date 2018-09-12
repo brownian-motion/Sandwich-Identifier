@@ -37,7 +37,6 @@
 
         reader.onloadend = function() {
             preview.src = reader.result;
-            submitImage();
         }
 
         if (file) {
@@ -86,15 +85,6 @@
         postFormAjax(form, handleSandwichResult);
         event.preventDefault();
     }, false);
-    document.body.addEventListener('keypress', function(event) {
-        if (event.key == "Enter") {
-            form.submit();
-        }
-    });
-
-    function submitImage() {
-        form.submit();
-    }
     </script>
 </body>
 
