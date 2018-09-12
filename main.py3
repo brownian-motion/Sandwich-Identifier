@@ -17,8 +17,8 @@ def handle_http_request(request):
     res.headers.set("Access-Control-Allow-Methods", "GET");
     res.headers.set("Access-Control-Allow-Headers", "Content-Type");
     res.headers.set("Access-Control-Max-Age", "3600");
+    res.headers.set("Content-Type", "application/json; charset=utf-8");
     return res
-
 
 def parse_request(request):
     """ Parses a 'multipart/form-data' upload request and executes the function.
@@ -32,7 +32,7 @@ def parse_request(request):
 
     file = extract_file_parameter(request, "image")
     if file == None:
-        return json.dumps({'success': False, 'message': 'Error: No image uploaded!'})
+        return json.dumps({'success': False, 'message': 'Error: No image uploaded!'}, indent=4)
 
     file_path = save_temporary_file(file, "image")
     
@@ -44,7 +44,7 @@ def parse_request(request):
     # get the max score for all of the sandwich, or 0 if there are no labels
     max_score = max([label['score'] for label in sandwich_labels], default=0)
 
-    return json.dumps({'success': True, 'labels': sandwich_labels, 'score': max_score, 'message': get_confidence_message(max_score)})
+    return json.dumps({'message': get_confidence_message(max_score), 'confidence': max_score, 'labels': sandwich_labels, 'success': True}, indent=4)
 
 def get_confidence_message(confidence):
     if confidence >= 0.8:
