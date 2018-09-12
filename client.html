@@ -25,13 +25,14 @@
     #preview {
         border-radius: 5px;
         width: 80%;
-        max-height: 80%;
+        max-height: 500px;
     }
     </style>
     <script type="text/javascript">
     function previewFile() {
         var preview = document.querySelector('#preview');
         var file = document.querySelector('input[type=file]').files[0];
+        document.getElementById("message").textContent = "";
         var reader = new FileReader();
 
         reader.onloadend = function() {

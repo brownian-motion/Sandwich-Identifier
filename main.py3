@@ -48,13 +48,13 @@ def parse_request(request):
 
 def get_confidence_message(confidence):
     if confidence >= 0.8:
-        return "That is a sandwich!"
+        return "This is a sandwich!"
     elif confidence >= 0.5:
-        return "That is probably a sandwich."
+        return "This is probably a sandwich."
     elif confidence >= 0.2:
-        return "That probably is not a sandwich."
+        return "This probably is not a sandwich."
     else:
-        return "That is not a sandwich."
+        return "This is not a sandwich."
 # Helper function that computes the filepath to save files to
 def get_file_path(filename):
     # Note: tempfile.gettempdir() points to an in-memory file system
