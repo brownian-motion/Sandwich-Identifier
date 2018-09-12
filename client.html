@@ -37,6 +37,7 @@
 
         reader.onloadend = function() {
             preview.src = reader.result;
+            submitImage();
         }
 
         if (file) {
@@ -90,6 +91,10 @@
             form.submit();
         }
     });
+
+    function submitImage() {
+        form.submit();
+    }
     </script>
 </body>
 
